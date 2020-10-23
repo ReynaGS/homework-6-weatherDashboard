@@ -1,3 +1,5 @@
+// Global Variables
+var cityHistory = [];
 // 1- Entry point. Primero define la funcion main. Has console log, como prueba.
 function main() {
   console.log('testing entry point');
@@ -6,7 +8,9 @@ function main() {
     //4- crea una variable que va a almacenar el value del imput en imput text.Luego igualala al valor retornado en la funcion val.
     var searchTerm;
     searchTerm = $('#searchBt').val();
+    getWeatherFromApi(searchTerm);
     console.log(searchTerm);
+    addCityToHistory(searchTerm);
   });
 }
 // 5 - creando una funcion, que tome el parametro del imput box y lo busque en el api.
@@ -48,6 +52,24 @@ function getNextFiveDays(result) {
     },
   });
 }
+// add last city to array
+
+function addCityToHistory(city) {
+  cityHistory.unshift(city);
+  if (cityHistory.length > 5) {
+    cityHistory.pop();
+  }
+  console.log(cityHistory);
+}
+function displayHistory() {
+  for (var i = 0; i < 5; i = i + 1) {
+    // console.log(i);
+    var lI = "<li class='list-group-item'></li>";
+    $('#cityList').append(lI);
+  }
+}
+// displayHistory();
+
 function displayWeather(data) {
   $('#actualTemp').text(data.current.temp);
   $('#actualHum').text(data.current.humidity);
@@ -60,4 +82,4 @@ function displayWeather(data) {
 $(document).ready(function () {
   main();
 });
-getWeatherFromApi('Miami');
+// getWeatherFromApi('miami');
