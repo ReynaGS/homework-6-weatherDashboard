@@ -12,10 +12,40 @@ function main() {
 // 5 - creando una funcion, que tome el parametro del imput box y lo busque en el api.
 function getWeatherFromApi(searchParam) {
   var url =
-    'https://api.openweathermap.org/data/2.5/weather?appid=487ec79abf2987194c1a213dff07edb5&units=imperial&q=' +
-    searchParam;
+    'https://api.openweathermap.org/data/2.5/weather?q=' +
+    searchParam +
+    '&appid=a879f1cd22ea10255604cb04a8d1dc6e';
 
   console.log(url);
+  $.ajax({
+    url: url,
+    contentType: 'application/json',
+    dataType: 'jsonp',
+    success: function (result) {
+      console.log(result);
+      getNextFiveDays(result);
+    },
+  });
+}
+function getNextFiveDays(result) {
+  var lat = result.coord.lat;
+  var lon = result.coord.lon;
+  var url =
+    'https://api.openweathermap.org/data/2.5/onecall?lat=' +
+    lat +
+    '&' +
+    'lon=' +
+    lon +
+    '&appid=a879f1cd22ea10255604cb04a8d1dc6e&exclude=minutely,hourly,alerts&units=imperial';
+  console.log(url);
+  $.ajax({
+    url: url,
+    contentType: 'application/json',
+    dataType: 'jsonp',
+    success: function (daily) {
+      console.log(daily);
+    },
+  });
 }
 // document.on("click","#searchBt" ,function(){})
 // 2- aqui invocamos jQuery en el documento $(), retorna un objeto, este objeto tiene un metodo que se llama.
