@@ -43,9 +43,16 @@ function getNextFiveDays(result) {
     contentType: 'application/json',
     dataType: 'jsonp',
     success: function (daily) {
+      displayWeather(daily);
       console.log(daily);
     },
   });
+}
+function displayWeather(data) {
+  $('#actualTemp').text(data.current.temp);
+  $('#actualHum').text(data.current.humidity);
+  $('#actualWindSpeed').text(data.current.wind_speed);
+  $('#actualUvi').text(data.current.uvi);
 }
 // document.on("click","#searchBt" ,function(){})
 // 2- aqui invocamos jQuery en el documento $(), retorna un objeto, este objeto tiene un metodo que se llama.
